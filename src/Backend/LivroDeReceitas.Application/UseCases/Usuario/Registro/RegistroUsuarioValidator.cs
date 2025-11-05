@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using LivroDeReceitas.Communication.Request;
+using LivroDeReceitas.Exceptions;
 
 namespace LivroDeReceitas.Application.UseCases.Usuario.Registro
 {
@@ -7,10 +8,10 @@ namespace LivroDeReceitas.Application.UseCases.Usuario.Registro
     {
         public RegistroUsuarioValidator()
         {
-            RuleFor(usuario => usuario.Nome).NotEmpty();
-            RuleFor(usuario => usuario.Email).NotEmpty();
-            RuleFor(usuario => usuario.Email).EmailAddress();
-            RuleFor(usuario => usuario.Senha.Length).GreaterThanOrEqualTo(6);
+            RuleFor(usuario => usuario.Nome).NotEmpty().WithMessage(ResourceMessagesException.NAME_EMPTY);
+            RuleFor(usuario => usuario.Email).NotEmpty().WithMessage(ResourceMessagesException.EMAIL_EMPTY);
+            RuleFor(usuario => usuario.Email).EmailAddress().WithMessage(ResourceMessagesException.EMAIL_INVALID);
+            RuleFor(usuario => usuario.Senha.Length).GreaterThanOrEqualTo(6).WithMessage(ResourceMessagesException.PASSWORD_EMPTY);
         }
     }
 }
