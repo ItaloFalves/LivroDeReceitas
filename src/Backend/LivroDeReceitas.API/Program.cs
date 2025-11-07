@@ -1,5 +1,7 @@
 using LivroDeReceitas.API.Filters;
 using LivroDeReceitas.API.Middleware;
+using LivroDeReceitas.Application;
+using LivroDeReceitas.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
+
+builder.Services.AddAplication();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 

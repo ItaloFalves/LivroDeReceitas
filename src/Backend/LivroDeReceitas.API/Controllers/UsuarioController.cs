@@ -1,7 +1,6 @@
 ﻿using LivroDeReceitas.Application.UseCases.Usuario.Registro;
 using LivroDeReceitas.Communication.Request;
 using LivroDeReceitas.Communication.Response;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LivroDeReceitas.API.Controllers
@@ -12,10 +11,10 @@ namespace LivroDeReceitas.API.Controllers
     {
         [HttpPost]
         [ProducesResponseType(typeof (ResponseRegistroUsuario), StatusCodes.Status201Created)]
-        public IActionResult Registro(RequestRegistroUsuario request)
+        public async Task<IActionResult> Registro([FromServices]IRegistroUsuarioUseCase registroUsuarioUseCase ,[FromBody]RequestRegistroUsuario request)
         {
-            var registroUserCase = new RegistroUsuarioUseCase();
-            var resultado = registroUserCase.Executa(request);
+
+            var resultado = await registroUsuarioUseCase.Executa(request);
 
             return Created(string.Empty, resultado);
         }
