@@ -10,8 +10,11 @@ namespace LivroDeReceitas.Application.UseCases.Usuario.Registro
         {
             RuleFor(usuario => usuario.Nome).NotEmpty().WithMessage(ResourceMessagesException.NAME_EMPTY);
             RuleFor(usuario => usuario.Email).NotEmpty().WithMessage(ResourceMessagesException.EMAIL_EMPTY);
-            RuleFor(usuario => usuario.Email).EmailAddress().WithMessage(ResourceMessagesException.EMAIL_INVALID);
             RuleFor(usuario => usuario.Senha.Length).GreaterThanOrEqualTo(6).WithMessage(ResourceMessagesException.PASSWORD_EMPTY);
+            When(usuario => string.IsNullOrEmpty(usuario.Email) == false, () =>
+            {
+                RuleFor(usuario => usuario.Email).EmailAddress().WithMessage(ResourceMessagesException.EMAIL_INVALID);
+            });
         }
     }
 }
